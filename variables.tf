@@ -1,0 +1,13 @@
+variable "vpc_cidr_block" {}
+variable "subnet_cidr_block" {}
+variable "avail_zone" {}
+variable "env_prefix" {}
+variable "app_name" {}
+variable "db_name" {}
+variable "db_username" {}
+variable "db_password" {}
+variable "allocated_storage" {}
+variable "instance_class" {}
+variable "app_port" {}
+variable "postgres_port" {}
+variable "docker_img_tag" {}

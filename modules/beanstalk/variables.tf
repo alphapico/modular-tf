@@ -1,0 +1,12 @@
+variable "env_prefix" {}
+variable "app_name" {}
+variable "ecr_repo_url" {}
+variable "rds_endpoint" {}
+variable "subnet_ids" {}
+variable "security_groups" {}
+variable "db_name" {}
+variable "db_username" {}
+variable "db_password" {}
+variable "app_port" {}
+variable "postgres_port" {}
+variable "docker_img_tag" {}
