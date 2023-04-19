@@ -2,6 +2,7 @@ variable "env_prefix" {}
 variable "app_name" {}
 variable "ecr_repo_url" {}
 variable "rds_endpoint" {}
+variable "vpc_id" {}
 variable "subnet_ids" {}
 variable "security_groups" {}
 variable "db_name" {}

@@ -9,7 +9,7 @@ resource "aws_ecr_lifecycle_policy" "charonium_lifecycle_policy" {
     rules = [
       {
         rulePriority = 1
-        description  = "Remove untagged images images older than 14 days"
+        description  = "Remove untagged images images older than 7 days"
         action = {
           type = "expire"
         }
@@ -17,7 +17,20 @@ resource "aws_ecr_lifecycle_policy" "charonium_lifecycle_policy" {
           tagStatus   = "untagged"
           countType   = "sinceImagePushed"
           countUnit   = "days"
-          countNumber = 14
+          countNumber = 7
+        }
+      },
+      {
+        rulePriority = 2
+        description  = "Keep only the 10 most recent unused tagged images"
+        action = {
+          type = "expire"
+        }
+        selection = {
+          tagStatus     = "tagged"
+          tagPrefixList = ["dev-", "v"]
+          countType     = "imageCountMoreThan"
+          countNumber   = 10
         }
       }
     ]

@@ -1,6 +1,8 @@
 variable "vpc_cidr_block" {}
-variable "subnet_cidr_block" {}
-variable "avail_zone" {}
+variable "subnet_cidr_block_1" {}
+variable "subnet_cidr_block_2" {}
+variable "avail_zone_1" {}
+variable "avail_zone_2" {}
 variable "env_prefix" {}
 variable "app_name" {}
 variable "app_port" {}

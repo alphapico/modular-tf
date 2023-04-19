@@ -26,21 +26,21 @@ resource "aws_elastic_beanstalk_environment" "charonium" {
     value     = "enhanced"
   }
 
-  setting {
-    namespace = "aws:elasticbeanstalk:healthreporting:system"
-    name      = "ConfigDocument"
-    value = jsonencode({
-      "ApplicationRequestsFailureThreshold" = 5
-      "InstanceHealthCheckInterval"         = 30
-    })
-  }
+  # setting {
+  #   namespace = "aws:elasticbeanstalk:healthreporting:system"
+  #   name      = "ConfigDocument"
+  #   value = jsonencode({
+  #     "ApplicationRequestsFailureThreshold" = 5
+  #     "InstanceHealthCheckInterval"         = 30
+  #   })
+  # }
 
 
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "HOST"
-    value     = aws_elastic_beanstalk_environment.charonium.endpoint_url
-  }
+  # setting {
+  #   namespace = "aws:elasticbeanstalk:application:environment"
+  #   name      = "HOST"
+  #   value     = aws_elastic_beanstalk_environment.charonium.endpoint_url
+  # }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
@@ -75,20 +75,28 @@ resource "aws_elastic_beanstalk_environment" "charonium" {
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name      = "DATABASE_URL"
-    value     = "postgresql://${var.db_username}:${var.db_password}@${var.rds_endpoint}:5432/${var.db_name}?schema=public"
+    value     = "postgresql://${var.db_username}:${var.db_password}@${var.rds_endpoint}/${var.db_name}?schema=public"
   }
 
-  setting {
-    namespace = "aws:elasticbeanstalk:container:docker"
-    name      = "ImageName"
+ setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "DOCKER_APP"
     value     = "${var.ecr_repo_url}:${var.docker_img_tag}"
   }
+
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "IamInstanceProfile"
-    value     = "aws-elasticbeanstalk-ec2-role"
+    value     = aws_iam_instance_profile.elastic_beanstalk_ec2_instance_profile.name
   }
+
+  # setting {
+  #   namespace = "aws:autoscaling:launchconfiguration"
+  #   name      = "InstanceType"
+  #   value     = "t3.medium"
+  # }
+
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
@@ -99,7 +107,7 @@ resource "aws_elastic_beanstalk_environment" "charonium" {
   setting {
     namespace = "aws:ec2:vpc"
     name      = "VPCId"
-    value     = module.network.vpc_id
+    value     = var.vpc_id
   }
 
   setting {

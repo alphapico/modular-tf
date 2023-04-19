@@ -8,16 +8,30 @@ resource "aws_vpc" "charonium-vpc" {
 
 resource "aws_subnet" "charonium-public-subnet-1" {
   vpc_id            = aws_vpc.charonium-vpc.id
-  cidr_block        = var.subnet_cidr_block
-  availability_zone = var.avail_zone
+  cidr_block        = var.subnet_cidr_block_1
+  availability_zone = var.avail_zone_1
 
   tags = {
     Name = "${var.app_name}-${var.env_prefix}-public-subnet-1"
   }
 }
 
+resource "aws_subnet" "charonium-public-subnet-2" {
+  vpc_id            = aws_vpc.charonium-vpc.id
+  cidr_block        = var.subnet_cidr_block_2
+  availability_zone = var.avail_zone_2
+
+  tags = {
+    Name = "${var.app_name}-${var.env_prefix}-public-subnet-2"
+  }
+}
+
 resource "aws_internet_gateway" "charonium-igw" {
   vpc_id = aws_vpc.charonium-vpc.id
+
+  tags = {
+    Name = "${var.app_name}-${var.env_prefix}-igw"
+  }
 }
 
 resource "aws_route_table" "charonium-public-rtb" {
@@ -33,8 +47,13 @@ resource "aws_route_table" "charonium-public-rtb" {
   }
 }
 
-resource "aws_route_table_association" "charonium-asc-rtb" {
+resource "aws_route_table_association" "charonium-asc-rtb-1" {
   subnet_id      = aws_subnet.charonium-public-subnet-1.id
+  route_table_id = aws_route_table.charonium-public-rtb.id
+}
+
+resource "aws_route_table_association" "charonium-asc-rtb-2" {
+  subnet_id      = aws_subnet.charonium-public-subnet-2.id
   route_table_id = aws_route_table.charonium-public-rtb.id
 }
 
@@ -51,10 +70,11 @@ resource "aws_security_group" "charonium-sg" {
   }
 
   ingress {
-    from_port       = var.postgres_port
-    to_port         = var.postgres_port
-    protocol        = "tcp"
-    security_groups = [aws_security_group.charonium-sg.id]
+    from_port = var.postgres_port
+    to_port   = var.postgres_port
+    protocol  = "tcp"
+    self      = true
+    # security_groups = [aws_security_group.charonium-sg.id]
   }
 
   egress {

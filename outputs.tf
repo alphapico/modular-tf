@@ -1,3 +1,11 @@
-output "elastic_beanstalk_environment_url" {
-  value = module.beanstalk.environment_url
+output "elastic_beanstalk_endpoint_url" {
+  value = module.beanstalk.eb_endpoint_url
+}
+
+output "ecr_repository_url" {
+  value = module.ecr.ecr_repository_url
+}
+
+output "rds_endpoint" {
+  value = module.rds.rds_endpoint
 }

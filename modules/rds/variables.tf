@@ -5,6 +5,6 @@ variable "db_password" {}
 variable "allocated_storage" {}
 variable "instance_class" {}
 variable "subnet_ids" {}
+variable "vpc_security_group_ids" {}
 variable "app_name" {}
-variable "eb_security_group_id" {}
 variable "postgres_port" {}
