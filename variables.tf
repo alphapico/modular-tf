@@ -14,3 +14,7 @@ variable "instance_class" {}
 variable "app_port" {}
 variable "postgres_port" {}
 variable "docker_img_tag" {}
+variable "jwt_secret" {}
+variable "frontend_domain" {}
+variable "email_name" {}
+variable "email_from" {}

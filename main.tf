@@ -19,16 +19,16 @@ module "ecr" {
 }
 
 module "network" {
-  source            = "./modules/network"
-  vpc_cidr_block    = var.vpc_cidr_block
+  source              = "./modules/network"
+  vpc_cidr_block      = var.vpc_cidr_block
   subnet_cidr_block_1 = var.subnet_cidr_block_1
   avail_zone_1        = var.avail_zone_1
   subnet_cidr_block_2 = var.subnet_cidr_block_2
   avail_zone_2        = var.avail_zone_2
-  env_prefix        = var.env_prefix
-  app_name          = var.app_name
-  app_port          = var.app_port
-  postgres_port     = var.postgres_port
+  env_prefix          = var.env_prefix
+  app_name            = var.app_name
+  app_port            = var.app_port
+  postgres_port       = var.postgres_port
 }
 
 module "beanstalk" {
@@ -46,6 +46,11 @@ module "beanstalk" {
   docker_img_tag  = var.docker_img_tag
   app_port        = var.app_port
   postgres_port   = var.postgres_port
+  region          = var.region
+  jwt_secret      = var.jwt_secret
+  frontend_domain = var.frontend_domain
+  email_name      = var.email_name
+  email_from      = var.email_from
 }
 
 module "rds" {

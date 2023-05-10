@@ -54,8 +54,36 @@ resource "aws_iam_policy" "ecr_access" {
   })
 }
 
+resource "aws_iam_policy" "ses_access" {
+  name        = "ElasticBeanstalkSESAccess"
+  description = "Policy for Elastic Beanstalk instances to access Amazon SES"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ses:SendEmail",
+          "ses:SendRawEmail",
+          "ses:Get*",
+          "ses:List*"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+
 resource "aws_iam_role_policy_attachment" "beanstalk_ec2_ecr_policy_attachment" {
   policy_arn = aws_iam_policy.ecr_access.arn
   role       = aws_iam_role.elastic_beanstalk_ec2_role.name
 }
+
+resource "aws_iam_role_policy_attachment" "beanstalk_ec2_ses_policy_attachment" {
+  policy_arn = aws_iam_policy.ses_access.arn
+  role       = aws_iam_role.elastic_beanstalk_ec2_role.name
+}
+
 

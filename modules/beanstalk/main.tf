@@ -78,10 +78,40 @@ resource "aws_elastic_beanstalk_environment" "charonium" {
     value     = "postgresql://${var.db_username}:${var.db_password}@${var.rds_endpoint}/${var.db_name}?schema=public"
   }
 
- setting {
+  setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name      = "DOCKER_APP"
     value     = "${var.ecr_repo_url}:${var.docker_img_tag}"
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "AWS_REGION"
+    value     = var.region
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "JWT_SECRET"
+    value     = var.jwt_secret
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "FRONTEND_DOMAIN"
+    value     = var.frontend_domain
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "EMAIL_NAME"
+    value     = var.email_name
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "EMAIL_FROM"
+    value     = var.email_from
   }
 
 
