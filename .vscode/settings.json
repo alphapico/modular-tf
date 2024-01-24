@@ -13,5 +13,10 @@
 		"editor.codeActionsOnSave": {
 			"source.formatAll.terraform": true
 		}
+	},
+	"[terraform][terraform-vars]": {
+		"editor.codeActionsOnSave": {
+			"source.formatAll.terraform": "explicit"
+		}
 	}
 }

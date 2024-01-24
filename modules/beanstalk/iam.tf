@@ -75,6 +75,30 @@ resource "aws_iam_policy" "ses_access" {
   })
 }
 
+resource "aws_iam_policy" "s3_access" {
+  name        = "ElasticBeanstalkS3Access"
+  description = "Policy for Elastic Beanstalk instances to access S3 bucket"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:ListBucket",
+          "s3:DeleteObject"
+        ]
+        Resource = [
+          "arn:aws:s3:::${var.bucket_name}",
+          "arn:aws:s3:::${var.bucket_name}/*"
+        ]
+      }
+    ]
+  })
+}
+
 
 resource "aws_iam_role_policy_attachment" "beanstalk_ec2_ecr_policy_attachment" {
   policy_arn = aws_iam_policy.ecr_access.arn
@@ -83,6 +107,11 @@ resource "aws_iam_role_policy_attachment" "beanstalk_ec2_ecr_policy_attachment" 
 
 resource "aws_iam_role_policy_attachment" "beanstalk_ec2_ses_policy_attachment" {
   policy_arn = aws_iam_policy.ses_access.arn
+  role       = aws_iam_role.elastic_beanstalk_ec2_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "beanstalk_ec2_s3_policy_attachment" {
+  policy_arn = aws_iam_policy.s3_access.arn
   role       = aws_iam_role.elastic_beanstalk_ec2_role.name
 }
 

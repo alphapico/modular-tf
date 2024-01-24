@@ -16,3 +16,6 @@ variable "jwt_secret" {}
 variable "frontend_domain" {}
 variable "email_name" {}
 variable "email_from" {}
+variable "admin_email" {}
+variable "admin_initial_password" {}
+variable "bucket_name" {}

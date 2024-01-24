@@ -51,6 +51,9 @@ module "beanstalk" {
   frontend_domain = var.frontend_domain
   email_name      = var.email_name
   email_from      = var.email_from
+  admin_email     = var.admin_email
+  admin_initial_password = var.admin_initial_password
+  bucket_name = var.bucket_name
 }
 
 module "rds" {
@@ -65,4 +68,11 @@ module "rds" {
   vpc_security_group_ids = [module.network.security_group_id]
   app_name               = var.app_name
   postgres_port          = var.postgres_port
+}
+
+module "s3" {
+  source = "./modules/s3"
+  app_name = var.app_name
+  env_prefix = var.env_prefix
+  bucket_name = var.bucket_name
 }

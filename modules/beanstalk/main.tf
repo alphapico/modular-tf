@@ -114,6 +114,24 @@ resource "aws_elastic_beanstalk_environment" "charonium" {
     value     = var.email_from
   }
 
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "ADMIN_EMAIL"
+    value     = var.admin_email
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "ADMIN_INITIAL_PASSWORD"
+    value     = var.admin_initial_password
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "BUCKET_NAME"
+    value     = var.bucket_name
+  }
+
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
